@@ -1,4 +1,5 @@
 # services/ai_client.py
+import time
 from openai import OpenAI
 import os
 from config import settings
@@ -36,19 +37,86 @@ Reglas (Nivel 1 — estrictas):
 5) Salida: SOLO markdown del CV. Nada más.
 """
 
-def _call_chat(messages: list[dict[str,str]], temperature=0.0) -> str:
+def _call_chat(messages: list[dict[str,str]], max_tokens=1500, temperature=0.0) -> str:
     """
-    Llamada centralizada al cliente OpenAI/OpenRouter.
+    Llamada central al cliente OpenAI/OpenRouter. Extrae el contenido de la respuesta
+    de forma robusta para las distintas representaciones que la SDK puede devolver.
+    Retorna: string con el texto del assistant (o string vacío en error).
     """
-    resp = client.chat.completions.create(
-        model=settings.settings.OPENROUTER_MODEL,
-        messages=messages,
-        temperature=temperature,
-    )
+    # reintentos simples en caso de fallo transitorio
+    for attempt in range(1, 3):
+        try:
+            resp = client.chat.completions.create(
+                model= settings.settings.OPENROUTER_MODEL,
+                messages=messages,
+                max_tokens=max_tokens,
+                temperature=temperature,
+            )
+            break
+        except Exception as e:
+            logging.exception("Error llamando al LLM (intento %s): %s", attempt, e)
+            if attempt < 2:
+                time.sleep(0.8)
+            else:
+                raise
 
-    # Extraemos el contenido del primer choice
-    content = resp.choices[0].message.get("content") or resp.choices[0].message.get("text") or ""
-    return content
+    # Ahora extraer contenido de forma robusta
+    try:
+        choice0 = resp.choices[0]
+    except Exception:
+        logging.error("Respuesta sin choices: %s", resp)
+        return ""
+
+    # 1) Forma esperada (objeto con .message y .content)
+    try:
+        # choice0.message puede ser un objeto con atributo content
+        msg_obj = getattr(choice0, "message", None)
+        if msg_obj is not None:
+            # Algunos SDKs permiten acceder así:
+            content = getattr(msg_obj, "content", None)
+            if content:
+                return content
+            # en algunos casos msg_obj puede ser dict-like
+            if isinstance(msg_obj, dict):
+                cand = msg_obj.get("content") or msg_obj.get("text")
+                if cand:
+                    return cand
+    except Exception:
+        logging.debug("No se obtuvo content desde choice0.message (objeto).", exc_info=True)
+
+    # 2) Forma alternativa: choice0.message.content (por si message es otro wrapper)
+    try:
+        if hasattr(choice0, "message") and hasattr(choice0.message, "content"):
+            return choice0.message.content
+    except Exception:
+        pass
+
+    # 3) Forma antigua: choice0.text
+    try:
+        text_attr = getattr(choice0, "text", None)
+        if text_attr:
+            return text_attr
+    except Exception:
+        pass
+
+    # 4) Si es dict-like entero (por seguridad)
+    try:
+        if isinstance(resp, dict):
+            # intentar obtener first choice -> message -> content
+            c0 = resp.get("choices", [{}])[0]
+            msg = c0.get("message", {})
+            if isinstance(msg, dict):
+                return msg.get("content") or msg.get("text") or ""
+            return c0.get("text") or ""
+    except Exception:
+        pass
+
+    # 5) Fallback: log completo y devolver str(resp)
+    logging.error("No se pudo extraer contenido del LLM. Resp raw: %s", resp)
+    try:
+        return str(resp)
+    except Exception:
+        return ""
 
 def analyze_job(job_text: str) -> dict:
     """
