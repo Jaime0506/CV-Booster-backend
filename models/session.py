@@ -2,6 +2,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
 from config.database import Base
+from sqlalchemy.orm import relationship
 
 class Session(Base):
     __tablename__ = "sessions"
@@ -15,7 +16,7 @@ class Session(Base):
     ip_addr = sa.Column(sa.String)
     is_revoked = sa.Column(sa.Boolean, server_default=sa.text("false"), nullable=False)
 
-    user = sa.relationship("User", back_populates="sessions")
+    user = relationship("User", back_populates="sessions")
 
 
     

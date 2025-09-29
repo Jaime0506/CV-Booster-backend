@@ -10,20 +10,10 @@ class Settings(BaseSettings):
     JWT_ALGORITHM: str
     ACCESS_TOKEN_EXPIRE_MINUTES: int
 
-    STORAGE_DIR: str
-    MAX_UPLOAD_BYTES: int
-
     DATABASE_URL: str
 
-    # --- SMTP & email
-    SMTP_HOST: str = "smtp.gmail.com"
-    SMTP_PORT: int = 587
-    SMTP_USER: str | None = None
-    SMTP_PASS: str | None = None
-    FROM_EMAIL: str | None = None
-
-    # para HMAC de códigos u otros secrets
-    SECRET_KEY: str
+    STORAGE_DIR: str
+    MAX_UPLOAD_BYTES: int
 
     class Config:
         env_file = ".env"

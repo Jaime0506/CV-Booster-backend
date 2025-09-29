@@ -2,6 +2,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
 from config.database import Base
+from sqlalchemy.orm import relationship
 
 class User(Base):
     __tablename__ = "users"
@@ -14,4 +15,4 @@ class User(Base):
     created_at = sa.Column(sa.TIMESTAMP(timezone=True), server_default=func.now())
     updated_at = sa.Column(sa.TIMESTAMP(timezone=True), server_default=func.now(), onupdate=func.now())
 
-    sessions = sa.relationship("Session", back_populates="user", cascade="all, delete")
+    sessions = relationship("Session", back_populates="user", cascade="all, delete")
