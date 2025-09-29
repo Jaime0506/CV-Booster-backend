@@ -4,7 +4,7 @@ from fastapi.responses import JSONResponse
 from utils.extractor import extract_text_from_upload
 from services.ai_client import analyze_job, adapt_cv_strict
 from utils.safety import obfuscate_personal_data, postprocess_check
-from config import settings
+from config.settings import settings
 
 import asyncio
 import json
@@ -16,7 +16,7 @@ from typing import Optional
 router = APIRouter(prefix="/cv-boost", tags=["cv-boost"])
 
 # Aseguramos carpeta de almacenamiento temporal
-TMP_JOBS_DIR = Path(settings.settings.STORAGE_DIR) / "tmp_jobs"
+TMP_JOBS_DIR = Path(settings.STORAGE_DIR) / "tmp_jobs"
 TMP_JOBS_DIR.mkdir(parents=True, exist_ok=True)
 
 

@@ -2,12 +2,12 @@
 import time
 from openai import OpenAI
 import os
-from config import settings
+from config.settings import settings
 import logging
 import json
 
 # Inicializa cliente OpenAI apuntando al endpoint de OpenRouter
-client = OpenAI(api_key=settings.settings.OPENROUTER_API_KEY, base_url=settings.settings.OPENROUTER_API_BASE)
+client = OpenAI(api_key=settings.OPENROUTER_API_KEY, base_url=settings.OPENROUTER_API_BASE)
 
 # Prompt A (Extractor) - devuelve JSON con estructura conocida
 PROMPT_A_SYSTEM = """
@@ -47,7 +47,7 @@ def _call_chat(messages: list[dict[str,str]], max_tokens=1500, temperature=0.0) 
     for attempt in range(1, 3):
         try:
             resp = client.chat.completions.create(
-                model= settings.settings.OPENROUTER_MODEL,
+                model=settings.OPENROUTER_MODEL,
                 messages=messages,
                 max_tokens=max_tokens,
                 temperature=temperature,
@@ -185,7 +185,7 @@ def generate_cv_markdown(cv_text: str, job_text: str, keywords: list[str]) -> st
     prompt = build_prompt(cv_text, job_text, keywords)
     # Llamada al endpoint de chat completions compatible OpenAI (vía OpenRouter)
     completion = client.chat.completions.create(
-        model=settings.settings.OPENROUTER_MODEL,  # AutoRouter selecciona un modelo adecuado
+        model=settings.OPENROUTER_MODEL,  # AutoRouter selecciona un modelo adecuado
         messages=[{"role": "user", "content": prompt}],
         max_tokens=1500,
         temperature=0.2

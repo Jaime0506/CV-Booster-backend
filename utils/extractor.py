@@ -2,7 +2,7 @@
 import os
 import tempfile
 from fastapi import UploadFile, HTTPException
-from config import settings
+from config.settings import settings
 import pdfplumber
 
 async def extract_text_from_upload(upload_file: UploadFile) -> str:
@@ -10,7 +10,7 @@ async def extract_text_from_upload(upload_file: UploadFile) -> str:
     contents = await upload_file.read()  # bytes
 
     # size check
-    if len(contents) > settings.settings.MAX_UPLOAD_BYTES:
+    if len(contents) > settings.MAX_UPLOAD_BYTES:
         raise HTTPException(status_code=413, detail="Archivo demasiado grande")
 
     # PDF
