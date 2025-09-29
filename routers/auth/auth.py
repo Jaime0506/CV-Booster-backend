@@ -8,14 +8,14 @@ from fastapi import Depends, HTTPException
 from models.user import User
 import sqlalchemy as sa
 import bcrypt
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from utils.jwt_utils import create_access_token
 from jose import JWTError, jwt
 from fastapi.security import OAuth2PasswordBearer
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login-user")
 
 @router.post("/register-user", response_model=RegisterOut)
 async def register(payload: RegisterIn, db: AsyncSession = Depends(get_db)):
@@ -45,7 +45,7 @@ async def register(payload: RegisterIn, db: AsyncSession = Depends(get_db)):
 
     return {"id": str(user.id), "email": user.email}
 
-@router.post("/logout")
+@router.post("/logout-user")
 async def logout(token: str = Depends(oauth2_scheme), db: AsyncSession = Depends(get_db)):
     try:
         payload = jwt.decode(token, settings.JWT_SECRET, algorithms=[settings.JWT_ALGORITHM])
@@ -73,7 +73,7 @@ async def logout(token: str = Depends(oauth2_scheme), db: AsyncSession = Depends
 
 
 
-@router.post("/login", response_model=TokenOut)
+@router.post("/login-user", response_model=TokenOut)
 async def login(payload: LoginIn, request: Request, db: AsyncSession = Depends(get_db)):
     normalized = payload.email.strip().lower()
 
@@ -88,12 +88,12 @@ async def login(payload: LoginIn, request: Request, db: AsyncSession = Depends(g
 
     # token JWT
     expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = await create_access_token({"sub": str(user.id)}, expires_delta=expires)
+    access_token = create_access_token({"sub": str(user.id)}, expires_delta=expires)
 
     # crear sesión en BD (sys.sessions)
     from uuid import uuid4
     session_id = uuid4()
-    now = datetime.now(datetime.UTC)
+    now = datetime.now(timezone.utc)
     expires_at = now + expires
 
     stmt = sa.insert(Session).values(
@@ -126,7 +126,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db: AsyncSession
         sa.select(Session).
         where(Session.user_id == user_id).
         where(Session.is_revoked == False).
-        where(Session.expires_at > datetime.now(datetime.UTC)).
+        where(Session.expires_at > datetime.now(timezone.utc)).
         order_by(Session.created_at.desc()).
         limit(1)
     )
@@ -135,7 +135,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db: AsyncSession
         raise HTTPException(status_code=401, detail="Session expired or revoked")
 
     # Actualizar last_accessed (no bloqueante)
-    session.last_accessed = datetime.now(datetime.UTC)
+    session.last_accessed = datetime.now(timezone.utc)
     db.add(session)
     await db.commit()
 

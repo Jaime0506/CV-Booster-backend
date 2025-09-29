@@ -1,5 +1,5 @@
 import sqlalchemy as sa
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.dialects.postgresql import UUID, INET
 from sqlalchemy.sql import func
 from config.database import Base
 from sqlalchemy.orm import relationship
@@ -13,7 +13,7 @@ class Session(Base):
     last_accessed = sa.Column(sa.TIMESTAMP(timezone=True), server_default=func.now())
     expires_at = sa.Column(sa.TIMESTAMP(timezone=True))
     user_agent = sa.Column(sa.Text)
-    ip_addr = sa.Column(sa.String)
+    ip_addr = sa.Column(INET)
     is_revoked = sa.Column(sa.Boolean, server_default=sa.text("false"), nullable=False)
 
     user = relationship("User", back_populates="sessions")

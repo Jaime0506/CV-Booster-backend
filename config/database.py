@@ -3,6 +3,9 @@ import os
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker, declarative_base
 from config.settings import settings
+import ssl
+
+ssl_context = ssl.create_default_context()
 
 if not settings.DATABASE_URL:
     raise ValueError("DATABASE_URL no está definido en .env")
@@ -11,7 +14,8 @@ if not settings.DATABASE_URL:
 engine = create_async_engine(
     settings.DATABASE_URL,
     echo=True,  # pon False en producción si no quieres logs SQL
-    future=True
+    future=True,
+    connect_args={"ssl": ssl_context},  # 👈 aquí pasamos el contexto SSL
 )
 
 # Session local async
