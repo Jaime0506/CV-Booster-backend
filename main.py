@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from routers.cv_boost.cv import router as cv_boost_router
 from routers.auth.auth import router as auth_router
 
-app = FastAPI(title="CV ATS optimizer")
+app = FastAPI(title="CV Booster")
 
 app.include_router(cv_boost_router)
 app.include_router(auth_router)

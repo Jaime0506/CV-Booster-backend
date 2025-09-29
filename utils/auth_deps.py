@@ -1,7 +1,7 @@
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
-from sqlalchemy import select
+from sqlalchemy import select, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 from datetime import datetime, timezone
 
@@ -28,7 +28,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db: AsyncSession
         select(SessionModel).
         where(SessionModel.user_id == user_id).
         where(SessionModel.is_revoked == False).
-        where(SessionModel.expires_at == None or SessionModel.expires_at > now).
+        where(or_(SessionModel.expires_at == None, SessionModel.expires_at > now)).
         order_by(SessionModel.created_at.desc()).
         limit(1)
     )

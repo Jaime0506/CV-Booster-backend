@@ -1,0 +1,140 @@
+{
+  "job_description": "Tu día a día en Topaz: Realizar actividades de desarrollo, diseño, investigación, soporte, programación, mantenimiento, pruebas técnicas y documentación de sistemas informáticos COBIS de complejidad media; Colaborar en la construcción de los diferentes softwares (producto) que posee la organización; Atender a los usuarios que posean problemas con el producto; Identificar posibles problemas y mejoras en el producto así como planificar y estimar los tiempos de desarrollo de producto; Contribución a la evolución de la documentación de la Metodología de Gestión de Proyectos y del PMO; Definir la visión del producto tomando en cuenta las tendencias del negocio, tecnologías del mercado, necesidades de los clientes y otras áreas de la organización; Apoyar en el desarrollo de actividades de salida al mercado con material base, llenado de formularios, documentación, estimación de alto nivel de funcionalidades ampliadas. ¿Qué necesitas saber para ser parte de Topaz? Profesional en Ingeniería de Sistemas, Programación, Software o carreras afines; Conocimientos de lenguajes de programación JAVA, HTML5, JAVA Script, VB06, VB .Net, C#, PHP, AJAX, Angular, Aplicaciones Móviles IOS, Android; Base de Datos: SQL Server, SYBASE, Oracle; SO: Windows, LINUX, UNIX; Desarrollo en Java y optimización y desarrollo de Backend (store procedure); Manejo del generador de servicios y BLI's; Dominio de herramientas de administración de código fuente GIT, Azure; Conocimiento de metodología Scrum; Deseable conocimiento en uno de módulos COBIS: IB, Canales, Cuentas Corrientes, Seguridades, Productos de Infraestructura-Middleware, Activas, Pasivas, Canales, Básicos, Bodega y Reportes; Experiencia laboral en tareas similares a las aquí descritas; Residencia en Bogotá. ¡Ten en cuenta estos beneficios que mejorarán tu experiencia en Topaz! Salud y Bienestar: Porque pensamos en nuestros equipos, contamos con diferentes planes de salud, los cuales están enfocados en promover el bienestar en la organización; Desarrollo personal y profesional: Estamos en constante evolución, por esto ofrecemos entornos, programas y políticas que garantizan el espacio y las oportunidades necesarias para ti 🎓 Ruta de carrera; Modalidad Híbrida: Aquí encontrarás el tiempo que necesitas para recargar energías, además podrás disfrutar de un día libre en tu cumpleaños 🥳 Modalidad de trabajo híbrido; Convenios: Ofrecemos diferentes convenios y descuentos.\n",
+  "extractor_json": {
+    "rol_detectado": "Desarrollador de Software COBIS",
+    "seniority": "mid",
+    "tecnologias": [
+      {
+        "name": "JAVA",
+        "confidence": 1.0
+      },
+      {
+        "name": "HTML5",
+        "confidence": 1.0
+      },
+      {
+        "name": "JavaScript",
+        "confidence": 1.0
+      },
+      {
+        "name": "VB06",
+        "confidence": 1.0
+      },
+      {
+        "name": "VB .Net",
+        "confidence": 1.0
+      },
+      {
+        "name": "C#",
+        "confidence": 1.0
+      },
+      {
+        "name": "PHP",
+        "confidence": 1.0
+      },
+      {
+        "name": "AJAX",
+        "confidence": 1.0
+      },
+      {
+        "name": "Angular",
+        "confidence": 1.0
+      },
+      {
+        "name": "iOS",
+        "confidence": 1.0
+      },
+      {
+        "name": "Android",
+        "confidence": 1.0
+      },
+      {
+        "name": "SQL Server",
+        "confidence": 1.0
+      },
+      {
+        "name": "Sybase",
+        "confidence": 1.0
+      },
+      {
+        "name": "Oracle",
+        "confidence": 1.0
+      },
+      {
+        "name": "Windows",
+        "confidence": 1.0
+      },
+      {
+        "name": "Linux",
+        "confidence": 1.0
+      },
+      {
+        "name": "Unix",
+        "confidence": 1.0
+      },
+      {
+        "name": "GIT",
+        "confidence": 1.0
+      },
+      {
+        "name": "Azure",
+        "confidence": 1.0
+      }
+    ],
+    "skills_duras": [
+      "Desarrollo en Java",
+      "Optimización y desarrollo de Backend (stored procedures)",
+      "Manejo del generador de servicios y BLI's",
+      "Administración de código fuente con GIT",
+      "Metodología Scrum",
+      "Desarrollo de aplicaciones móviles iOS y Android",
+      "Programación en lenguajes: HTML5, JavaScript, VB .Net, C#, PHP, AJAX, Angular"
+    ],
+    "skills_blandas": [
+      "Colaboración en equipos",
+      "Atención a usuarios",
+      "Identificación de problemas y mejoras",
+      "Planificación y estimación de tiempos",
+      "Definición de visión de producto",
+      "Contribución a documentación y metodologías"
+    ],
+    "requisitos_imprescindibles": [
+      "Profesional en Ingeniería de Sistemas, Programación, Software o carreras afines",
+      "Conocimientos de lenguajes de programación: JAVA, HTML5, JavaScript, VB06, VB .Net, C#, PHP, AJAX, Angular, Aplicaciones Móviles iOS, Android",
+      "Base de Datos: SQL Server, Sybase, Oracle",
+      "Sistemas Operativos: Windows, Linux, Unix",
+      "Desarrollo en Java y optimización de Backend (stored procedures)",
+      "Manejo del generador de servicios y BLI's",
+      "Dominio de herramientas: GIT, Azure",
+      "Conocimiento de metodología Scrum",
+      "Residencia en Bogotá"
+    ],
+    "requisitos_deseables": [
+      "Conocimiento en uno de los módulos COBIS: IB, Canales, Cuentas Corrientes, Seguridades, Productos de Infraestructura-Middleware, Activas, Pasivas, Canales, Básicos, Bodega y Reportes",
+      "Experiencia laboral en tareas similares"
+    ],
+    "keywords_ats": [
+      "JAVA",
+      "JavaScript",
+      "C#",
+      "Angular",
+      "SQL Server",
+      "Oracle",
+      "GIT",
+      "Azure",
+      "Scrum",
+      "COBIS",
+      "Backend",
+      "Desarrollo de Software",
+      "Ingeniería de Sistemas"
+    ],
+    "suggested_sections": [
+      "Responsabilidades Diarias",
+      "Requisitos Imprescindibles",
+      "Requisitos Deseables",
+      "Beneficios",
+      "Modalidad de Trabajo"
+    ],
+    "confidence_score": 0.95
+  }
+}
