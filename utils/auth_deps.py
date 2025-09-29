@@ -1,47 +1,51 @@
-from fastapi import Depends, HTTPException
+from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
-from models.session import Session
-from models.user import User
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-import sqlalchemy as sa
 from datetime import datetime, timezone
+
 from config.settings import settings
 from config.database import get_db
+from models.user import User
+from models.session import Session as SessionModel
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login-user")
 
-async def get_current_user(token: str = Depends(oauth2_scheme), db: AsyncSession = Depends(get_db)):
+async def get_current_user(token: str = Depends(oauth2_scheme), db: AsyncSession = Depends(get_db)) -> User:
+    # 1) decode JWT
     try:
         payload = jwt.decode(token, settings.JWT_SECRET, algorithms=[settings.JWT_ALGORITHM])
         user_id = payload.get("sub")
         if user_id is None:
-            raise HTTPException(status_code=401, detail="Invalid token")
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
     except JWTError:
-        raise HTTPException(status_code=401, detail="Invalid token")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
 
-    # Buscar sesión activa más reciente
+    # 2) buscar sesión activa para ese user_id
+    now = datetime.now(timezone.utc)
     q = await db.execute(
-        sa.select(Session).
-        where(Session.user_id == user_id).
-        where(Session.is_revoked == False).
-        where(Session.expires_at > datetime.now(timezone.utc)).
-        order_by(Session.created_at.desc()).
+        select(SessionModel).
+        where(SessionModel.user_id == user_id).
+        where(SessionModel.is_revoked == False).
+        where(SessionModel.expires_at == None or SessionModel.expires_at > now).
+        order_by(SessionModel.created_at.desc()).
         limit(1)
     )
     session = q.scalars().first()
     if not session:
-        raise HTTPException(status_code=401, detail="Session expired or revoked")
+        # no hay sesión activa → token inválido por revocación / expiración
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Session expired or revoked")
 
-    # Actualizar last_accessed (no bloqueante)
-    session.last_accessed = datetime.now(timezone.utc)
+    # 3) actualizar last_accessed
+    session.last_accessed = now
     db.add(session)
     await db.commit()
 
-    # Obtener user
-    q2 = await db.execute(sa.select(User).where(User.id == user_id))
+    # 4) devolver user
+    q2 = await db.execute(select(User).where(User.id == user_id))
     user = q2.scalars().first()
     if not user:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
     return user

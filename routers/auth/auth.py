@@ -12,10 +12,15 @@ from datetime import datetime, timedelta, timezone
 from utils.jwt_utils import create_access_token
 from jose import JWTError, jwt
 from fastapi.security import OAuth2PasswordBearer
+from utils.auth_deps import get_current_user
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login-user")
+
+@router.get("/me")
+async def me(user = Depends(get_current_user)):
+    return {"id": str(user.id), "email": user.email}
 
 @router.post("/register-user", response_model=RegisterOut)
 async def register(payload: RegisterIn, db: AsyncSession = Depends(get_db)):
