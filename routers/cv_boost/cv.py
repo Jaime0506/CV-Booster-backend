@@ -1,5 +1,5 @@
 # cv.py (APIRouter) - flujo en 2 pasos
-from fastapi import APIRouter, UploadFile, File, Form, HTTPException, status
+from fastapi import APIRouter, UploadFile, File, Form, HTTPException, status, Depends
 from fastapi.responses import JSONResponse
 from utils.extractor import extract_text_from_upload
 from services.ai_client import analyze_job, adapt_cv_strict
@@ -12,8 +12,13 @@ import os
 from pathlib import Path
 import uuid
 from typing import Optional
+from utils.auth_deps import get_current_user
 
-router = APIRouter(prefix="/cv-boost", tags=["cv-boost"])
+router = APIRouter(
+    prefix="/cv-boost", 
+    tags=["cv-boost"], 
+    dependencies=[Depends(get_current_user)]
+    )
 
 # Aseguramos carpeta de almacenamiento temporal
 TMP_JOBS_DIR = Path(settings.STORAGE_DIR) / "tmp_jobs"
