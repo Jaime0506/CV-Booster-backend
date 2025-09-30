@@ -26,15 +26,81 @@ Eres un analizador de ofertas de empleo. Extrae de manera precisa y estructurada
 DEVUELVE SOLO JSON VÁLIDO. Si algo no se puede inferir, usa "unknown" o confidence baja.
 """
 
-# Prompt B (Adaptador) - Nivel 1: estrictamente NO INVENTAR
+# Prompt B (Adaptador) - Nivel 3: Adaptación ultra-agresiva e inteligente
+# MEJORADO: Permite inferir y añadir tecnologías lógicamente consistentes
+# sin inventar proyectos/empresas, maximizando la relevancia para la oferta específica
 PROMPT_B_SYSTEM = """
 Eres un redactor experto en CVs optimizados para ATS. Genera SOLO la versión del CV en MARKDOWN.
-Reglas (Nivel 1 — estrictas):
-1) No inventes proyectos, logros, métricas, empresas, ni periodos. Si no aparece en el CV original, NO lo agregues.
-2) Puedes reformular texto existente para mejorar claridad y convertir responsabilidades en logros solo si están justificadas en el texto original.
-3) Integra las keywords de 'keywords_ats' de forma natural. Si una tecnología aparece en la oferta pero no en el CV original, NO la añadas como "usada"; en su lugar añade al final una sección opcional "[Formación sugerida para cerrar gaps]".
-4) Si hay incertidumbre sobre una afirmación, añade [VERIFICAR] al lado.
-5) Salida: SOLO markdown del CV. Nada más.
+
+REGLAS FUNDAMENTALES (NO NEGOCIABLES):
+1) NUNCA inventes proyectos, empresas, periodos de trabajo, o métricas específicas que no estén en el CV original.
+
+ADAPTACIÓN INTELIGENTE Y AGRESIVA DE TECNOLOGÍAS (PERMITIDO Y RECOMENDADO):
+2) INFERENCIA LÓGICA DE TECNOLOGÍAS: Puedes añadir tecnologías que no estén explícitamente mencionadas en el CV, SIEMPRE Y CUANDO:
+   - Sea lógicamente consistente con el proyecto descrito
+   - Sea una tecnología estándar/obvia para ese tipo de proyecto
+   - Tenga sentido en el contexto de la oferta de trabajo
+   
+   EJEMPLOS DE INFERENCIA VÁLIDA:
+   - Si el CV dice "Desarrollé una aplicación web" → puedes añadir "HTML, CSS, JavaScript" (tecnologías obvias)
+   - Si el CV dice "Sistema de gestión de datos" → puedes añadir "SQL, bases de datos relacionales"
+   - Si el CV dice "API REST" → puedes añadir "HTTP, JSON, endpoints"
+   - Si el CV dice "Aplicación móvil" → puedes añadir "iOS/Android, frameworks móviles"
+   - Si el CV dice "Machine Learning" → puedes añadir "Python, pandas, scikit-learn"
+   - Si el CV dice "DevOps" → puedes añadir "CI/CD, Docker, automatización"
+
+3) MAPEO Y ADAPTACIÓN DE TECNOLOGÍAS: Puedes adaptar y expandir las tecnologías mencionadas:
+   - Si el CV menciona "JavaScript" y la oferta busca "React", puedes reformular como "JavaScript (incluyendo React, Node.js)"
+   - Si el CV menciona "Python" y la oferta busca "Django", puedes reformular como "Python (Django, Flask, FastAPI)"
+   - Si el CV menciona "Base de datos" y la oferta busca "PostgreSQL", puedes reformular como "Bases de datos (PostgreSQL, MySQL, MongoDB)"
+   - Si el CV menciona "Cloud" y la oferta busca "AWS", puedes reformular como "Cloud computing (AWS, Azure, GCP)"
+
+4) ADAPTACIÓN ULTRA-AGRESIVA DE EXPERIENCIA LABORAL: Puedes transformar completamente la experiencia laboral para que sea más atractiva y relevante:
+   - CAMBIAR RESPONSABILIDADES: Adaptar las responsabilidades del cargo original para que se alineen con el puesto objetivo
+   - HACER RESPONSABILIDADES MÁS ATRACTIVAS: Reformular responsabilidades básicas para que suenen más estratégicas y valiosas
+   - AJUSTAR NIVEL DE SENIORITY: Adaptar el nivel de responsabilidad según el cargo al que se postula
+   - CAMBIAR ENFOQUE TÉCNICO: Modificar el enfoque técnico de las responsabilidades para que coincida con la oferta
+   
+   EJEMPLOS DE TRANSFORMACIÓN DE EXPERIENCIA:
+   - Si el CV dice "Desarrollador Junior" y la oferta busca "Senior Developer" → transformar a "Desarrollador con responsabilidades de liderazgo técnico"
+   - Si el CV dice "Mantenimiento de código" y la oferta busca "Arquitectura" → transformar a "Diseño y arquitectura de soluciones"
+   - Si el CV dice "Testing manual" y la oferta busca "QA Automation" → transformar a "Automatización de pruebas y CI/CD"
+   - Si el CV dice "Soporte técnico" y la oferta busca "DevOps" → transformar a "Gestión de infraestructura y automatización"
+
+5) REFORMULACIÓN ULTRA-ATRACTIVA DE RESPONSABILIDADES: Puedes hacer las responsabilidades mucho más atractivas y relevantes:
+   - CONVERTIR TAREAS BÁSICAS EN LOGROS ESTRATÉGICOS:
+     * "Escribir código" → "Desarrollar soluciones escalables y optimizadas"
+     * "Corregir bugs" → "Optimizar rendimiento y mejorar la experiencia del usuario"
+     * "Reuniones con clientes" → "Liderar consultoría técnica y definición de requerimientos"
+     * "Documentar código" → "Establecer estándares de documentación y mejores prácticas"
+   
+   - ADAPTAR RESPONSABILIDADES AL CARGO OBJETIVO:
+     * Si la oferta busca "Team Lead" → enfatizar liderazgo, mentoring, coordinación
+     * Si la oferta busca "Full Stack" → destacar tanto frontend como backend
+     * Si la oferta busca "DevOps" → enfatizar automatización, CI/CD, infraestructura
+     * Si la oferta busca "Data Engineer" → destacar procesamiento, pipelines, optimización
+
+6) REFORMULACIÓN DE PROYECTOS: Puedes adaptar la descripción de proyectos existentes para destacar aspectos relevantes para la oferta:
+   - Cambiar el enfoque de un proyecto para destacar tecnologías relevantes
+   - Reformular responsabilidades para que suenen más relevantes para el puesto
+   - Añadir contexto sobre el impacto del proyecto si está implícito en el original
+   - Expandir descripciones técnicas cuando sea lógicamente consistente
+
+7) OPTIMIZACIÓN DE SECCIONES: Puedes reorganizar y optimizar secciones existentes:
+   - Cambiar el orden de tecnologías para priorizar las relevantes para la oferta
+   - Reformular descripciones de experiencia para destacar aspectos relevantes
+   - Convertir responsabilidades en logros cuantificados cuando sea apropiado
+   - Añadir tecnologías relacionadas que sean obvias para el contexto
+
+8) INTEGRACIÓN DE KEYWORDS: Integra las keywords de 'keywords_ats' de forma natural en el contenido existente.
+
+9) GAPS DE TECNOLOGÍA: Si hay tecnologías importantes en la oferta que no aparecen en el CV, añade al final una sección "[Formación sugerida para cerrar gaps]" con las tecnologías faltantes.
+
+10) VERIFICACIÓN: Si hay incertidumbre sobre una afirmación, añade [VERIFICAR] al lado.
+
+OBJETIVO: Crear un CV que maximice las coincidencias con la oferta sin inventar contenido, haciendo que el candidato parezca más relevante para el puesto específico.
+
+Salida: SOLO markdown del CV. Nada más.
 """
 
 def _call_chat(messages: list[dict[str,str]], max_tokens=1500, temperature=0.0) -> str:
@@ -144,14 +210,96 @@ def analyze_job(job_text: str) -> dict:
             parsed = {"error": "parse_error", "raw": raw}
     return parsed
 
-def adapt_cv_strict(cv_text: str, extractor_json: dict, obfuscated: bool = True) -> str:
+def _generate_technology_mapping_guidance(extractor_json: dict) -> str:
     """
-    Llama al Prompt B (Nivel 1). Devuelve markdown del CV.
+    Genera guías específicas de mapeo de tecnologías basadas en el análisis de la oferta.
+    """
+    guidance = []
+    
+    # Extraer tecnologías de la oferta
+    tecnologias = extractor_json.get('tecnologias', [])
+    keywords_ats = extractor_json.get('keywords_ats', [])
+    
+    if tecnologias:
+        guidance.append("TECNOLOGÍAS PRIORITARIAS EN LA OFERTA:")
+        for tech in tecnologias[:5]:  # Top 5 tecnologías
+            if isinstance(tech, dict):
+                name = tech.get('name', '')
+                confidence = tech.get('confidence', 0)
+                if name and confidence > 0.3:
+                    guidance.append(f"- {name} (relevancia: {confidence:.1f})")
+            elif isinstance(tech, str):
+                guidance.append(f"- {tech}")
+    
+    if keywords_ats:
+        guidance.append("\nKEYWORDS ATS A INTEGRAR:")
+        for keyword in keywords_ats[:10]:  # Top 10 keywords
+            guidance.append(f"- {keyword}")
+    
+    # Sugerencias de mapeo e inferencia agresiva
+    guidance.append("\nSUGERENCIAS DE MAPEO E INFERENCIA AGRESIVA:")
+    guidance.append("- Si el CV menciona 'JavaScript' → enfatizar frameworks como React, Vue, Angular, Node.js")
+    guidance.append("- Si el CV menciona 'Python' → destacar frameworks web, data science, automation, pandas, numpy")
+    guidance.append("- Si el CV menciona 'Base de datos' → especificar PostgreSQL, MySQL, MongoDB, SQL")
+    guidance.append("- Si el CV menciona 'Cloud' → especificar AWS, Azure, GCP, Docker, Kubernetes")
+    guidance.append("- Si el CV menciona 'DevOps' → destacar CI/CD, Docker, Kubernetes, Jenkins, GitLab")
+    guidance.append("- Si el CV menciona 'aplicación web' → inferir HTML, CSS, JavaScript, HTTP, APIs")
+    guidance.append("- Si el CV menciona 'API' → inferir REST, JSON, HTTP, endpoints, microservicios")
+    guidance.append("- Si el CV menciona 'móvil' → inferir iOS, Android, React Native, Flutter")
+    guidance.append("- Si el CV menciona 'ML/AI' → inferir Python, pandas, scikit-learn, TensorFlow, PyTorch")
+    guidance.append("- Si el CV menciona 'análisis de datos' → inferir SQL, Python, pandas, visualización")
+    
+    # Sugerencias específicas para transformación de experiencia laboral
+    guidance.append("\nTRANSFORMACIÓN DE EXPERIENCIA LABORAL:")
+    guidance.append("ADAPTACIÓN DE RESPONSABILIDADES:")
+    guidance.append("- 'Desarrollador Junior' → 'Desarrollador con responsabilidades de liderazgo técnico'")
+    guidance.append("- 'Mantenimiento de código' → 'Diseño y arquitectura de soluciones'")
+    guidance.append("- 'Testing manual' → 'Automatización de pruebas y CI/CD'")
+    guidance.append("- 'Soporte técnico' → 'Gestión de infraestructura y automatización'")
+    guidance.append("- 'Escribir código' → 'Desarrollar soluciones escalables y optimizadas'")
+    guidance.append("- 'Corregir bugs' → 'Optimizar rendimiento y mejorar experiencia del usuario'")
+    guidance.append("- 'Reuniones con clientes' → 'Liderar consultoría técnica y definición de requerimientos'")
+    guidance.append("- 'Documentar código' → 'Establecer estándares de documentación y mejores prácticas'")
+    
+    # Adaptación según el tipo de cargo objetivo
+    rol_detectado = extractor_json.get('rol_detectado', '').lower()
+    if 'lead' in rol_detectado or 'manager' in rol_detectado:
+        guidance.append("\nADAPTACIÓN PARA LIDERAZGO:")
+        guidance.append("- Enfatizar: liderazgo de equipo, mentoring, coordinación, toma de decisiones")
+        guidance.append("- Transformar: 'Desarrollo individual' → 'Liderazgo de equipo de desarrollo'")
+        guidance.append("- Añadir: 'Mentoring de desarrolladores junior', 'Coordinación de proyectos'")
+    elif 'devops' in rol_detectado or 'sre' in rol_detectado:
+        guidance.append("\nADAPTACIÓN PARA DEVOPS:")
+        guidance.append("- Enfatizar: automatización, CI/CD, infraestructura, monitoreo")
+        guidance.append("- Transformar: 'Despliegue manual' → 'Automatización de despliegues'")
+        guidance.append("- Añadir: 'Gestión de infraestructura', 'Monitoreo y alertas'")
+    elif 'full stack' in rol_detectado:
+        guidance.append("\nADAPTACIÓN PARA FULL STACK:")
+        guidance.append("- Enfatizar: frontend y backend, arquitectura completa")
+        guidance.append("- Transformar: 'Desarrollo frontend' → 'Desarrollo full stack con arquitectura completa'")
+        guidance.append("- Añadir: 'Integración frontend-backend', 'Arquitectura de microservicios'")
+    
+    return "\n".join(guidance)
+
+def adapt_cv_strict(cv_text: str, extractor_json: dict, obfuscated: bool = True, custom_instructions: str = None) -> str:
+    """
+    Llama al Prompt B (Nivel 2). Devuelve markdown del CV.
     `obfuscated` indica si el cv_text ya vino ofuscado; si no, la función no lo hace aquí.
+    `custom_instructions` son instrucciones adicionales del usuario que se combinan con el prompt base.
     """
+    # Construir el prompt del sistema combinando el base con las instrucciones personalizadas
+    system_prompt = PROMPT_B_SYSTEM
+    if custom_instructions and custom_instructions.strip():
+        system_prompt += f"\n\nINSTRUCCIONES PERSONALIZADAS DEL USUARIO:\n{custom_instructions.strip()}"
+    
+    # Añadir guías específicas de mapeo de tecnologías
+    tech_guidance = _generate_technology_mapping_guidance(extractor_json)
+    if tech_guidance:
+        system_prompt += f"\n\nGUÍAS ESPECÍFICAS PARA ESTA OFERTA:\n{tech_guidance}"
+    
     extract_json_str = json.dumps(extractor_json, ensure_ascii=False, indent=2)
     messages = [
-        {"role": "system", "content": PROMPT_B_SYSTEM},
+        {"role": "system", "content": system_prompt},
         {"role": "user", "content": f"CV_ORIGINAL:\n{cv_text}\n\nEXTRACTOR_JSON:\n{extract_json_str}"}
     ]
     md = _call_chat(messages, temperature=0.05)
