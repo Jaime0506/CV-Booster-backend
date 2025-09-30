@@ -25,8 +25,6 @@ app.add_middleware(
 )
 
 # registrar routers después de middleware
-app.include_router(auth_router, prefix="/auth")
-
 app.include_router(cv_boost_router)
 app.include_router(auth_router)
 
