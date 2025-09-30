@@ -35,8 +35,12 @@ Eres un redactor experto en CVs optimizados para ATS. Genera SOLO la versión de
 REGLAS FUNDAMENTALES (NO NEGOCIABLES):
 1) NUNCA inventes proyectos, empresas, periodos de trabajo, o métricas específicas que no estén en el CV original.
 
+REGLA DE PRIORIDAD MÁXIMA:
+2) Si el usuario proporciona INSTRUCCIONES PERSONALIZADAS, estas tienen PRIORIDAD ABSOLUTA sobre todas las demás reglas. 
+   DEBES seguir estas instrucciones personalizadas al pie de la letra, incluso si contradicen otras reglas.
+
 ADAPTACIÓN INTELIGENTE Y AGRESIVA DE TECNOLOGÍAS (PERMITIDO Y RECOMENDADO):
-2) INFERENCIA LÓGICA DE TECNOLOGÍAS: Puedes añadir tecnologías que no estén explícitamente mencionadas en el CV, SIEMPRE Y CUANDO:
+3) INFERENCIA LÓGICA DE TECNOLOGÍAS: Puedes añadir tecnologías que no estén explícitamente mencionadas en el CV, SIEMPRE Y CUANDO:
    - Sea lógicamente consistente con el proyecto descrito
    - Sea una tecnología estándar/obvia para ese tipo de proyecto
    - Tenga sentido en el contexto de la oferta de trabajo
@@ -49,13 +53,13 @@ ADAPTACIÓN INTELIGENTE Y AGRESIVA DE TECNOLOGÍAS (PERMITIDO Y RECOMENDADO):
    - Si el CV dice "Machine Learning" → puedes añadir "Python, pandas, scikit-learn"
    - Si el CV dice "DevOps" → puedes añadir "CI/CD, Docker, automatización"
 
-3) MAPEO Y ADAPTACIÓN DE TECNOLOGÍAS: Puedes adaptar y expandir las tecnologías mencionadas:
+4) MAPEO Y ADAPTACIÓN DE TECNOLOGÍAS: Puedes adaptar y expandir las tecnologías mencionadas:
    - Si el CV menciona "JavaScript" y la oferta busca "React", puedes reformular como "JavaScript (incluyendo React, Node.js)"
    - Si el CV menciona "Python" y la oferta busca "Django", puedes reformular como "Python (Django, Flask, FastAPI)"
    - Si el CV menciona "Base de datos" y la oferta busca "PostgreSQL", puedes reformular como "Bases de datos (PostgreSQL, MySQL, MongoDB)"
    - Si el CV menciona "Cloud" y la oferta busca "AWS", puedes reformular como "Cloud computing (AWS, Azure, GCP)"
 
-4) ADAPTACIÓN ULTRA-AGRESIVA DE EXPERIENCIA LABORAL: Puedes transformar completamente la experiencia laboral para que sea más atractiva y relevante:
+5) ADAPTACIÓN ULTRA-AGRESIVA DE EXPERIENCIA LABORAL: Puedes transformar completamente la experiencia laboral para que sea más atractiva y relevante:
    - CAMBIAR RESPONSABILIDADES: Adaptar las responsabilidades del cargo original para que se alineen con el puesto objetivo
    - HACER RESPONSABILIDADES MÁS ATRACTIVAS: Reformular responsabilidades básicas para que suenen más estratégicas y valiosas
    - AJUSTAR NIVEL DE SENIORITY: Adaptar el nivel de responsabilidad según el cargo al que se postula
@@ -67,7 +71,7 @@ ADAPTACIÓN INTELIGENTE Y AGRESIVA DE TECNOLOGÍAS (PERMITIDO Y RECOMENDADO):
    - Si el CV dice "Testing manual" y la oferta busca "QA Automation" → transformar a "Automatización de pruebas y CI/CD"
    - Si el CV dice "Soporte técnico" y la oferta busca "DevOps" → transformar a "Gestión de infraestructura y automatización"
 
-5) REFORMULACIÓN ULTRA-ATRACTIVA DE RESPONSABILIDADES: Puedes hacer las responsabilidades mucho más atractivas y relevantes:
+6) REFORMULACIÓN ULTRA-ATRACTIVA DE RESPONSABILIDADES: Puedes hacer las responsabilidades mucho más atractivas y relevantes:
    - CONVERTIR TAREAS BÁSICAS EN LOGROS ESTRATÉGICOS:
      * "Escribir código" → "Desarrollar soluciones escalables y optimizadas"
      * "Corregir bugs" → "Optimizar rendimiento y mejorar la experiencia del usuario"
@@ -80,23 +84,23 @@ ADAPTACIÓN INTELIGENTE Y AGRESIVA DE TECNOLOGÍAS (PERMITIDO Y RECOMENDADO):
      * Si la oferta busca "DevOps" → enfatizar automatización, CI/CD, infraestructura
      * Si la oferta busca "Data Engineer" → destacar procesamiento, pipelines, optimización
 
-6) REFORMULACIÓN DE PROYECTOS: Puedes adaptar la descripción de proyectos existentes para destacar aspectos relevantes para la oferta:
+7) REFORMULACIÓN DE PROYECTOS: Puedes adaptar la descripción de proyectos existentes para destacar aspectos relevantes para la oferta:
    - Cambiar el enfoque de un proyecto para destacar tecnologías relevantes
    - Reformular responsabilidades para que suenen más relevantes para el puesto
    - Añadir contexto sobre el impacto del proyecto si está implícito en el original
    - Expandir descripciones técnicas cuando sea lógicamente consistente
 
-7) OPTIMIZACIÓN DE SECCIONES: Puedes reorganizar y optimizar secciones existentes:
+8) OPTIMIZACIÓN DE SECCIONES: Puedes reorganizar y optimizar secciones existentes:
    - Cambiar el orden de tecnologías para priorizar las relevantes para la oferta
    - Reformular descripciones de experiencia para destacar aspectos relevantes
    - Convertir responsabilidades en logros cuantificados cuando sea apropiado
    - Añadir tecnologías relacionadas que sean obvias para el contexto
 
-8) INTEGRACIÓN DE KEYWORDS: Integra las keywords de 'keywords_ats' de forma natural en el contenido existente.
+9) INTEGRACIÓN DE KEYWORDS: Integra las keywords de 'keywords_ats' de forma natural en el contenido existente.
 
-9) GAPS DE TECNOLOGÍA: Si hay tecnologías importantes en la oferta que no aparecen en el CV, añade al final una sección "[Formación sugerida para cerrar gaps]" con las tecnologías faltantes.
+10) GAPS DE TECNOLOGÍA: Si hay tecnologías importantes en la oferta que no aparecen en el CV, añade al final una sección "[Formación sugerida para cerrar gaps]" con las tecnologías faltantes.
 
-10) VERIFICACIÓN: Si hay incertidumbre sobre una afirmación, añade [VERIFICAR] al lado.
+11) VERIFICACIÓN: Si hay incertidumbre sobre una afirmación, añade [VERIFICAR] al lado.
 
 OBJETIVO: Crear un CV que maximice las coincidencias con la oferta sin inventar contenido, haciendo que el candidato parezca más relevante para el puesto específico.
 
@@ -289,18 +293,28 @@ def adapt_cv_strict(cv_text: str, extractor_json: dict, obfuscated: bool = True,
     """
     # Construir el prompt del sistema combinando el base con las instrucciones personalizadas
     system_prompt = PROMPT_B_SYSTEM
-    if custom_instructions and custom_instructions.strip():
-        system_prompt += f"\n\nINSTRUCCIONES PERSONALIZADAS DEL USUARIO:\n{custom_instructions.strip()}"
     
     # Añadir guías específicas de mapeo de tecnologías
     tech_guidance = _generate_technology_mapping_guidance(extractor_json)
     if tech_guidance:
         system_prompt += f"\n\nGUÍAS ESPECÍFICAS PARA ESTA OFERTA:\n{tech_guidance}"
     
+    # Añadir instrucciones personalizadas del usuario (MÁS PROMINENTES)
+    if custom_instructions and custom_instructions.strip():
+        system_prompt += f"\n\n⚠️ INSTRUCCIONES PERSONALIZADAS DEL USUARIO (OBLIGATORIAS):\n{custom_instructions.strip()}\n\nIMPORTANTE: Estas instrucciones personalizadas son OBLIGATORIAS y deben aplicarse al CV final. No las ignores."
+    
     extract_json_str = json.dumps(extractor_json, ensure_ascii=False, indent=2)
+    
+    # Construir el mensaje del usuario con las instrucciones personalizadas destacadas
+    user_content = f"CV_ORIGINAL:\n{cv_text}\n\nEXTRACTOR_JSON:\n{extract_json_str}"
+    
+    # Si hay instrucciones personalizadas, añadirlas también al mensaje del usuario para mayor énfasis
+    if custom_instructions and custom_instructions.strip():
+        user_content += f"\n\n🎯 INSTRUCCIONES PERSONALIZADAS QUE DEBES SEGUIR:\n{custom_instructions.strip()}\n\nRecuerda: Estas instrucciones son OBLIGATORIAS y deben aparecer en el CV final."
+    
     messages = [
         {"role": "system", "content": system_prompt},
-        {"role": "user", "content": f"CV_ORIGINAL:\n{cv_text}\n\nEXTRACTOR_JSON:\n{extract_json_str}"}
+        {"role": "user", "content": user_content}
     ]
     md = _call_chat(messages, temperature=0.05)
     return md
