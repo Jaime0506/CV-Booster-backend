@@ -195,7 +195,7 @@ async def get_usage_history(
     offset: int = 0,
     endpoint_filter: Optional[str] = None,
     model_filter: Optional[str] = None,
-    include_full_result: bool = False
+    truncate_result: bool = False
 ):
     """
     Obtiene el historial de uso de IA del usuario actual
@@ -205,7 +205,7 @@ async def get_usage_history(
         offset: Número de registros a saltar para paginación (default: 0)
         endpoint_filter: Filtrar por endpoint específico (opcional)
         model_filter: Filtrar por modelo específico (opcional)
-        include_full_result: Si incluir el resultado completo o solo preview (default: False)
+        truncate_result: Si truncar el resultado a 200 caracteres (default: False - devuelve resultado completo)
     """
     # Validaciones
     if limit <= 0 or limit > 100:
@@ -256,15 +256,15 @@ async def get_usage_history(
         # Convertir a formato JSON
         history = []
         for record in usage_records:
-            # Determinar qué incluir del resultado
-            if include_full_result:
-                result_content = record.result
-            else:
+            # Determinar qué incluir del resultado (por defecto devuelve completo)
+            if truncate_result:
                 result_content = (
                     record.result[:200] + "..." 
                     if record.result and len(record.result) > 200 
                     else record.result
                 )
+            else:
+                result_content = record.result
             
             history.append({
                 "id": record.id,
@@ -291,7 +291,7 @@ async def get_usage_history(
                 "filters_applied": {
                     "endpoint_filter": endpoint_filter,
                     "model_filter": model_filter,
-                    "include_full_result": include_full_result
+                    "truncate_result": truncate_result
                 }
             }
         })
