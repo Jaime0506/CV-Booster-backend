@@ -8,7 +8,7 @@ from routers.cv_boost.cv import router as cv_boost_router
 from routers.auth.auth import router as auth_router
 
 app = FastAPI(title="CV Booster")
-
+# chame es gay
 # Ajusta estos valores a tu entorno (dominios del frontend)
 origins = [
     "https://cv-booster-omega.vercel.app",
