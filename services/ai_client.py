@@ -120,6 +120,23 @@ def _call_chat(messages: list[dict[str,str]], max_tokens=1500, temperature=0.0) 
             )
             break
         except Exception as e:
+            error_msg = str(e)
+            # Detectar errores específicos de modelo no encontrado
+            if "404" in error_msg or "No endpoints found" in error_msg or "not found" in error_msg.lower():
+                logging.error(
+                    "Modelo no encontrado en OpenRouter: %s. "
+                    "Verifica que el modelo esté disponible. "
+                    "Modelos alternativos sugeridos: "
+                    "x-ai/grok-beta, openai/gpt-3.5-turbo, google/gemini-flash-1.5, meta-llama/llama-3.2-3b-instruct:free",
+                    settings.OPENROUTER_MODEL
+                )
+                raise ValueError(
+                    f"Modelo '{settings.OPENROUTER_MODEL}' no está disponible en OpenRouter. "
+                    f"Error: {error_msg}. "
+                    f"Por favor, actualiza OPENROUTER_MODEL en tu archivo .env con un modelo válido. "
+                    f"Modelos sugeridos: x-ai/grok-beta, openai/gpt-3.5-turbo, google/gemini-flash-1.5, "
+                    f"meta-llama/llama-3.2-3b-instruct:free"
+                ) from e
             logging.exception("Error llamando al LLM (intento %s): %s", attempt, e)
             if attempt < 2:
                 time.sleep(0.8)

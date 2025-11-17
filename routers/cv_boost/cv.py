@@ -89,6 +89,20 @@ async def analyze_job_endpoint(
             "message": "Analisis generado. Muestra esto al usuario y pídeles confirmar/editar keywords antes de generar el CV."
         })
     
+    except ValueError as e:
+        # Error de configuración del modelo (modelo no encontrado)
+        error_msg = str(e)
+        await tracker.log_usage(
+            db=db,
+            user_id=str(current_user.id),
+            model=settings.OPENROUTER_MODEL,
+            endpoint="/cv-boost/analyze_job",
+            result=f"ERROR: {error_msg}"
+        )
+        raise HTTPException(
+            status_code=503,
+            detail=error_msg
+        )
     except Exception as e:
         # Registrar error en el tracking
         await tracker.log_usage(
@@ -175,6 +189,20 @@ async def generate_cv_endpoint(
             "custom_instructions_used": options if options and options.strip() else None
         })
     
+    except ValueError as e:
+        # Error de configuración del modelo (modelo no encontrado)
+        error_msg = str(e)
+        await tracker.log_usage(
+            db=db,
+            user_id=str(current_user.id),
+            model=settings.OPENROUTER_MODEL,
+            endpoint="/cv-boost/generate_cv/strict",
+            result=f"ERROR: {error_msg}"
+        )
+        raise HTTPException(
+            status_code=503,
+            detail=error_msg
+        )
     except Exception as e:
         # Registrar error en el tracking
         await tracker.log_usage(

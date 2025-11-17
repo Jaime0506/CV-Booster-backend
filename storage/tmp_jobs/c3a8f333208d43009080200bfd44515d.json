@@ -1,0 +1,112 @@
+{
+  "job_description": "Buscamos unDesarrollador Salesforce Juniorcon conocimientos técnicos básicos en la plataforma yalta disposición para aprender. La persona apoyará el desarrollo, configuración y mantenimiento de soluciones CRM bajo supervisión, contribuyendo a entregas de calidad y al crecimiento de la práctica CRM. Ideal para profesionales que quieren crecer en Salesforce con mentoría constante.\n\nModalidad:100% remoto\nTipo de contrato:Indefinido\nNivel:Junior (0–2 años de experiencia en desarrollo Salesforce)\nUbicación:Colombia (trabajo remoto)\n\nResponsabilidades principales.\n• Participar en el desarrollo de soluciones sobreSalesforceutilizandoApex,LWC (Lightning Web Components)yFlows, siempre bajo la guía de un desarrollador senior.• Realizarconfiguraciones declarativas: objetos, campos, layouts, flujos (Flows), procesos y reglas de validación.• Implementar y mantenerintegraciones simples(APIsREST/SOAP) con sistemas externos bajo supervisión técnica.• Ejecutarpruebas unitarias, apoyar en pruebas de integración y en pruebas de aceptación de usuario (UAT).• Documentar cambios, procedimientos y actualizaciones en repositorios de documentación (Confluence, GitHub/GitLab, etc.).• Soportar la resolución de incidencias deprimer y segundo niveldentro de losSLAsestablecidos.• Colaborar en revisiones de código y aplicar buenas prácticas establecidas por el equipo.\nRequisitos (obligatorios)\n• Conocimientos básicos y experiencia práctica mínima enSalesforce(configuración declarativa y nociones de desarrollo).• Familiaridad conApex,LWCySalesforce Flows.• Conocimientos básicos de consumo/implementación deAPIs REST/SOAP.• Capacidad para escribir pruebas unitarias y entender cobertura de código en Salesforce.• Habilidad para documentar cambios y seguir procesos de control de versiones (Git).• Buenas habilidades comunicativas y capacidad para trabajar en equipo remoto.• Alta disposición para aprendery recibir mentoría.• Disponibilidad para trabajar en horario compatible con el equipo (mencionar zona horaria si aplica).\nRequisitos (deseables)\n• CertificaciónSalesforce AdministratoroPlatform Developer I(o en trámite).• Experiencia con herramientas de gestión (Jira, Confluence) y CI/CD (Salesforce DX, GitHub Actions).• Conocimientos básicos de SQL y modelado de datos.• Nivel intermedio de inglés técnico (lectura y comprensión).\n\nBeneficios y crecimiento\n• Contratoindefinidoy trabajo 100% remoto.• Plan de formación y mentoría con desarrollador(s) senior.• Oportunidad de certificación pagada (Salesforce Admin / Platform Developer).",
+  "extractor_json": {
+    "rol_detectado": "Desarrollador Salesforce Junior",
+    "seniority": "junior",
+    "tecnologias": [
+      {
+        "name": "Salesforce",
+        "confidence": 1.0
+      },
+      {
+        "name": "Apex",
+        "confidence": 1.0
+      },
+      {
+        "name": "LWC (Lightning Web Components)",
+        "confidence": 1.0
+      },
+      {
+        "name": "Salesforce Flows",
+        "confidence": 1.0
+      },
+      {
+        "name": "APIs REST/SOAP",
+        "confidence": 0.9
+      },
+      {
+        "name": "Git",
+        "confidence": 0.8
+      },
+      {
+        "name": "Confluence",
+        "confidence": 0.7
+      },
+      {
+        "name": "GitHub/GitLab",
+        "confidence": 0.7
+      },
+      {
+        "name": "Jira",
+        "confidence": 0.6
+      },
+      {
+        "name": "Salesforce DX",
+        "confidence": 0.6
+      },
+      {
+        "name": "GitHub Actions",
+        "confidence": 0.6
+      },
+      {
+        "name": "SQL",
+        "confidence": 0.5
+      }
+    ],
+    "skills_duras": [
+      "Desarrollo Salesforce (Apex, LWC, Flows)",
+      "Configuraciones declarativas (objetos, campos, layouts)",
+      "Integraciones APIs REST/SOAP",
+      "Pruebas unitarias y cobertura de código",
+      "Documentación técnica",
+      "Control de versiones (Git)",
+      "Resolución incidencias nivel 1-2"
+    ],
+    "skills_blandas": [
+      "Trabajo en equipo remoto",
+      "Habilidades comunicativas",
+      "Alta disposición para aprender",
+      "Capacidad para recibir mentoría",
+      "Colaboración en revisiones de código"
+    ],
+    "requisitos_imprescindibles": [
+      "Conocimientos básicos y experiencia práctica mínima en Salesforce (configuración declarativa y nociones de desarrollo)",
+      "Familiaridad con Apex, LWC y Salesforce Flows",
+      "Conocimientos básicos de consumo/implementación de APIs REST/SOAP",
+      "Capacidad para escribir pruebas unitarias y entender cobertura de código en Salesforce",
+      "Habilidad para documentar cambios y seguir procesos de control de versiones (Git)",
+      "Buenas habilidades comunicativas y capacidad para trabajar en equipo remoto",
+      "Alta disposición para aprender y recibir mentoría",
+      "Disponibilidad para trabajar en horario compatible con el equipo"
+    ],
+    "requisitos_deseables": [
+      "Certificación Salesforce Administrator o Platform Developer I (o en trámite)",
+      "Experiencia con herramientas de gestión (Jira, Confluence) y CI/CD (Salesforce DX, GitHub Actions)",
+      "Conocimientos básicos de SQL y modelado de datos",
+      "Nivel intermedio de inglés técnico (lectura y comprensión)"
+    ],
+    "keywords_ats": [
+      "Desarrollador Salesforce",
+      "Salesforce Junior",
+      "Apex",
+      "LWC",
+      "Lightning Web Components",
+      "Salesforce Flows",
+      "APIs REST",
+      "APIs SOAP",
+      "Pruebas unitarias",
+      "Git",
+      "Salesforce Administrator",
+      "Platform Developer I"
+    ],
+    "suggested_sections": [
+      "Experiencia Salesforce",
+      "Proyectos con Apex y LWC",
+      "Certificaciones Salesforce",
+      "Integraciones APIs",
+      "Pruebas unitarias Salesforce",
+      "Conocimientos Git"
+    ],
+    "confidence_score": 0.98
+  }
+}

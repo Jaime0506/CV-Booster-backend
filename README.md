@@ -145,7 +145,7 @@ CV Original → Ofuscación → IA Adaptation → Validación → CV Optimizado
 
 ### IA y Procesamiento
 
--   **OpenRouter**: Servicio de IA con múltiples modelos (x-ai/grok-4-fast:free)
+-   **OpenRouter**: Servicio de IA con múltiples modelos (ej: x-ai/grok-beta, openai/gpt-3.5-turbo)
 -   **OpenAI SDK 1.109.1**: Cliente oficial para servicios de IA
 -   **pdfplumber 0.11.7**: Extracción robusta de texto de PDFs
 -   **python-multipart 0.0.20**: Manejo de archivos multipart
@@ -303,9 +303,11 @@ JWT_ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
 
 # OpenRouter (IA) - Obtén tu API key en: https://openrouter.ai/
+# Nota: Verifica modelos disponibles en https://openrouter.ai/models
 OPENROUTER_API_KEY=sk-or-v1-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 OPENROUTER_API_BASE=https://openrouter.ai/api/v1
-OPENROUTER_MODEL=x-ai/grok-4-fast:free
+# Modelos sugeridos (verifica disponibilidad): x-ai/grok-beta, openai/gpt-3.5-turbo, google/gemini-flash-1.5, meta-llama/llama-3.2-3b-instruct:free
+OPENROUTER_MODEL=x-ai/grok-beta
 
 # Almacenamiento
 STORAGE_DIR=./storage
@@ -514,7 +516,7 @@ curl -X GET "http://localhost:8000/cv-boost/usage_history?limit=10&offset=0" \
         {
             "id": 1,
             "request_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-            "model": "x-ai/grok-4-fast:free",
+            "model": "x-ai/grok-beta",
             "endpoint": "/cv-boost/analyze_job",
             "latency_ms": 1250,
             "result_preview": "{\n  \"rol_detectado\": \"Desarrollador Python Senior\",\n  \"seniority\": \"senior\",\n  \"tecnologias\": [\n    {\"name\": \"Python\", \"confidence\": 0.95}\n  ]...",
@@ -649,7 +651,7 @@ El sistema registra automáticamente en `sys.llm_usage`:
 
 -   **Usuario**: ID del usuario que realizó la petición
 -   **Request ID**: Identificador único de cada petición
--   **Modelo**: Modelo de IA utilizado (ej: x-ai/grok-4-fast:free)
+-   **Modelo**: Modelo de IA utilizado (ej: x-ai/grok-beta, openai/gpt-3.5-turbo)
 -   **Endpoint**: Endpoint de la API llamado
 -   **Latencia**: Tiempo de respuesta en milisegundos
 -   **Resultado**: Texto completo generado por la IA
